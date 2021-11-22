@@ -2,94 +2,126 @@
 
 *English | [中文](README.zh.md)*
 
-This tutorial enables you to quickly get started in your development efforts to create an Android app with real-time video calls, voice calls, and interactive broadcasting.
+Real-time video chatting immerses people in the sights and sounds of human connections, keeping them engaged in your app longer.
 
-With this sample app, you can:
+Using this demo app, you can:
 
-- Join / leave channel
-- Mute / unmute audio
-- Switch camera
-- Setup resolution, frame rate and bit rate
+- Join and leave a channel
+- Mute and unmute audio
+- Switch camera on a mobile device
+- Configure image resolution, frame rate, and bit rate
+
+This page shows you how run high-quality, low-latency, real-time video calls, voice calls, and interactive broadcasting events in this Android demo app.
 
 ## Prerequisites
 
-- Android Studio 3.3 or above
-- Android device (e.g. Nexus 5X). A real device is recommended because some simulators have missing functionality or lack the performance necessary to run the sample.
+To follow this procedure you must have:
 
-## Quick Start
+- A valid [Agora account](https://docs.agora.io/en/Agora%20Platform/sign_in_and_sign_up) and an [Agora project](https://docs.agora.io/en/Agora%20Platform/manage_projects?platform=All%20Platforms#create-a-new-project)
+- [Java Development Kit](https://www.oracle.com/java/technologies/downloads/)
+- Android Studio 3.3 or greater
+- Two Android physical devices
 
-This section shows you how to prepare, build, and run the sample application.
 
-### Obtain an App ID
+Best practice is to test this demo app using a mobile device. Some simulators have missing functionality or lack the performance necessary to run this demo app
 
-To build and run the sample application, get an App ID:
-1. Create a developer account at [agora.io](https://dashboard.agora.io/signin/). Once you finish the signup process, you will be redirected to the Dashboard.
-2. Navigate in the Dashboard tree on the left to **Projects** > **Project List**.
-3. Save the **App ID** from the Dashboard for later use.
-4. Generate a temp **Access Token** (valid for 24 hours) from dashboard page with given channel name, save for later use.
 
-5. Locate the file **app/src/main/res/values/strings.xml** and replace <#YOUR APP ID#> with the App ID in the dashboard.
+## Build this demo app in your local developer environment
 
-  ```xml
-  <string name="agora_app_id"><#YOUR APP ID#></string>
-  <!-- Obtain a temp Access Token at https://dashboard.agora.io -->
-  <!-- You will need to deploy your own token server for production release -->
-  <!-- Leave this value empty if Security keys/Token is not enabled for your project -->
-  <string name="agora_access_token"><#YOUR TOKEN#></string>
-  ```
+To download and configure this demo app in your local developer environment:
 
-> To ensure communication security, Agora uses tokens (dynamic keys) to authenticate users joining a channel.
->
-> Temporary tokens are for demonstration and testing purposes only and remain valid for 24 hours. In a production environment, you need to deploy your own server for generating tokens. See [Generate a Token](https://docs.agora.io/en/Interactive Broadcast/token_server)for details.
+1. **Download the demo app to your local machine**:
 
-### Integrate the Agora Video SDK
+   In the terminal, clone this repository to `<install dir>` on your local device:
+   ````bash
+   cd <install dir>
+   git clone git@github.com:AgoraIO/Basic-Video-Call.git
+   ````
+2. **Open the demo app in your developer IDE**:
 
-The SDK must be integrated into the sample project before it can opened and built. There are two methods for integrating the Agora Video SDK into the sample project. The first method uses JCenter to automatically integrate the SDK files. The second method requires you to manually copy the SDK files to the project.
+   In Android Studio, open this demo app from:
+    ````bash
+    <install dir>/Basic-Video-Call/One-to-One-Video/Agora-Android-Tutorial-1to1
+   ````
+   You see the source files for this demo app in an Android view.
 
-#### Method 1 - Integrate the SDK Automatically Using JCenter (Recommended)
 
-1. Clone this repository.
-2. Open **app/build.gradle** and add the following line to the `dependencies` list:
+3. **Integrate Video SDK into the demo project**
 
-  ```
-  ...
-  dependencies {
+   In `Gradle Scripts/build.gradle (Module: Agrora-Android-Tutorial-1to1.app)`, add the Video SDK implementation:
+    ```
+    dependencies {
       ...
       implementation 'io.agora.rtc:full-sdk:3.0.0'
-  }
-  ```
-
-#### Method 2 - Manually copy the SDK files
-
-1. Download the Agora Video SDK from [Agora.io SDK](https://www.agora.io/en/download/).
-2. Unzip the downloaded SDK package.
-3. Copy the following files from the **libs** folder of the downloaded SDK package:
-
-Copy from SDK|Copy to Project Folder
----|---
-.jar file|**/apps/libs** folder
-**arm64-v8a** folder|**/app/src/main/jniLibs** folder
-**x86** folder|**/app/src/main/jniLibs** folder
-**armeabi-v7a** folder|**/app/src/main/jniLibs** folder
-
-​    
-
-### Run the Application
-
-Open project with Android Studio, connect your Android device, build and run.
-      
-Or use `Gradle` to build and run.
+    }
+    ```
+   Android Studio automatically syncs all dependencies. If you cannot access the implementation [install the sdk on your local machine](#reference).
 
 
-## Contact Us
+4. **Create an authentication token**
 
-- For potential issues, take a look at our [FAQ](https://docs.agora.io/en/faq) first
-- Dive into [Agora SDK Samples](https://github.com/AgoraIO) to see more tutorials
-- Take a look at [Agora Use Case](https://github.com/AgoraIO-usecase) for more complicated real use case
-- Repositories managed by developer communities can be found at [Agora Community](https://github.com/AgoraIO-Community)
-- You can find full API documentation at [Document Center](https://docs.agora.io/en/)
-- If you encounter problems during integration, you can ask question in [Stack Overflow](https://stackoverflow.com/questions/tagged/agora.io)
-- You can file bugs about this sample at [issue](https://github.com/AgoraIO/Basic-Video-Call/issues)
+   To ensure communication security, Agora uses tokens, that is, dynamic keys, to authenticate channel access. In Agora Console, [generate a temporary token](https://docs.agora.io/en/Agora%20Platform/get_appid_token?platform=All%20Platforms#generate-an-rtc-temporary-token).
+
+
+5. **Add your token to the demo app**
+    1. In Android Studio, open `app\res\values\strings.xml`.
+    6. Update `<#YOUR APP ID#>` and `<#YOUR ACCESS TOKEN#>` with the temporary token `APP ID` and `Temp Token` you generated previously.
+
+       ```xml
+       <string name="agora_app_id"><#YOUR APP ID#></string>
+       <!-- Obtain a temp Access Token at https://dashboard.agora.io -->
+       <!-- You will need to deploy your own token server for production release -->
+       <!-- Leave this value empty if Security keys/Token is not enabled for your project -->
+       <string name="agora_access_token"><#YOUR TOKEN#></string>
+       ```
+
+6. **Build the demo app**
+
+   In Android Studio, click **Build** > **Make Project**.
+
+Your app is now compiled and ready to test.
+
+## Test this demo
+
+To try out Agora Video Call functionality on your mobile devices:
+
+1. Connect your Android devices to your local development machine.
+2. In Android Studio, in the toolbar, click the arrow next to the current device and click **Select multiple devices**.
+3. In **Select multiple devices**, click the devices and click **OK**.
+
+4. Click **Run** > **Run 'app'**.
+
+A moment later you see the video call is opened on the demo app installed on your devices. You can talk to yourself using both devices. Why not lend one to a friend and talk to them?
+
+
+## Next steps
+
+- You use temporary tokens for testing only. In a production environment, best practice is to deploy a token server. See [Generate a Token](https://docs.agora.io/en/Interactive%20Broadcast/token_server?platform=Android) for more information.
+
+- To see more tutorials, have a look at our [Agora SDK Samples](https://github.com/AgoraIO).
+- For a more complete example, take a look at the [Agora use case](https://github.com/AgoraIO-usecase).
+- Have a look at some apps made by the [Agora Community](https://github.com/AgoraIO-Community).
+- You can find full API documentation in the [Document Center](https://docs.agora.io/en/).
+- For potential issues, take a look at our [FAQ](https://docs.agora.io/en/faq).
+- If you encounter problems during integration,  have a look in [Stack Overflow](https://stackoverflow.com/questions/tagged/agora.io).
+- Not working for you? File an issue about this demo app in the [GitHub repo](https://github.com/AgoraIO/Basic-Video-Call/issues).
+
+
+## Reference
+
+If you cannot access the Agora Video Call implementation automatically, download it and add it to your project. To do this:
+
+1. Unzip the Agora Video SDK from [Agora.io SDK](https://www.agora.io/en/download/) to a local directory.
+3. Copy the following files from the **libs** folder of the SDK package to your Android project:
+
+   Copy from SDK|Copy to Project Folder
+      ---|---
+   .jar file|**/apps/libs** folder
+   **arm64-v8a** folder|**/app/src/main/jniLibs** folder
+   **x86** folder|**/app/src/main/jniLibs** folder
+   **armeabi-v7a** folder|**/app/src/main/jniLibs** folder
+
+
 
 ## License
 
